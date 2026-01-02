@@ -144,9 +144,31 @@ function finalizar() {
     });
 
     const nota = ((acertos / perguntasAtuais.length) * 10).toFixed(1);
+    const nome = document.getElementById("nome").value.trim();
+    const unidade = "Panobianco Vila Império";
+    const hoje = new Date();
+    const mesAno = (hoje.getMonth()+1).toString().padStart(2,"0") + "/" + hoje.getFullYear();
+
+    fetch("https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nome: nome,
+            unidade: unidade,
+            mesAno: mesAno,
+            nota: nota
+        })
+    });
+
     document.getElementById("quiz").classList.add("hidden");
-    document.getElementById("resultado").innerHTML = `<h2>Nota final: ${nota}</h2>`;
+    document.getElementById("resultado").innerHTML =
+        `<h2>Nota final: ${nota}</h2><p>Resultado registrado com sucesso.</p>`;
     document.getElementById("resultado").classList.remove("hidden");
+}
+
 }
 </script>
 
