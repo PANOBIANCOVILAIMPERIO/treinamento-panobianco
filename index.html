@@ -23,93 +23,86 @@ h2 { font-size: 18px; color: #555; margin-top: 0; }
     margin-top: 25px;
 }
 button {
-    margin-top: 30px;
+    margin-top: 25px;
     padding: 12px 22px;
     font-size: 16px;
     cursor: pointer;
 }
-.hidden { display: none; }
+.hidden {
+    display: none;
+}
+input {
+    padding: 8px;
+    width: 70%;
+}
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<img src="logo-panobianco.png" style="max-width:180px; margin-bottom:20px;">
+<img src="logo-panobianco.png" alt="Panobianco" style="max-width:180px; margin-bottom:20px;">
 
 <h1>Treinamento de Estagiários – Panobianco Vila Império</h1>
-<h2>Avaliação Mensal de Musculação – 2026</h2>
+<h2>Avaliação Mensal de Musculação</h2>
 
+<!-- BLOQUEIO -->
 <div id="bloqueio" class="hidden">
-    <p><strong>Avaliações ainda não liberadas.</strong></p>
-    <p>Início oficial: Janeiro de 2026.</p>
+    <p><strong>Avaliação ainda não liberada.</strong></p>
 </div>
 
-<div id="inicio">
+<!-- INÍCIO -->
+<div id="inicio" class="hidden">
     <p>Digite seu nome completo:</p>
-    <input type="text" id="nome" style="padding:8px; width:70%;">
+    <input type="text" id="nome">
     <br>
     <button onclick="iniciar()">Iniciar Avaliação</button>
 </div>
 
+<!-- QUIZ -->
 <form id="quiz" class="hidden"></form>
+
+<!-- RESULTADO -->
 <div id="resultado" class="hidden"></div>
 
 </div>
 
 <script>
-const inicioTreinamento = new Date("2026-01-01");
+// ===== CONFIGURAÇÕES =====
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec";
+const UNIDADE = "Panobianco Vila Império";
+
+// LIBERADO PARA TESTE (depois volte para 2026-01-01)
+const inicioTreinamento = new Date("2024-01-01");
 const hoje = new Date();
 
-// ===== BANCO DE PERGUNTAS 2026 =====
+// ===== PERGUNTAS (EXEMPLO JANEIRO) =====
 const perguntasPorMes = {
-0: [ // JANEIRO
-{q:"Antes de iniciar o supino com um aluno iniciante, qual ajuste é essencial?",a:["Escolher a maior carga","Ajustar corretamente a altura do banco","Diminuir o descanso","Aumentar a velocidade"],c:1},
-{q:"Qual músculo é o principal responsável pela extensão do joelho?",a:["Bíceps femoral","Glúteo máximo","Quadríceps","Gastrocnêmio"],c:2},
-{q:"No leg press, a posição correta dos pés deve priorizar:",a:["Pés juntos","Pés muito baixos","Pés alinhados e estáveis","Pés soltos"],c:2},
-{q:"Durante a execução de qualquer exercício, o aluno deve manter:",a:["Respiração presa","Movimento rápido","Postura adequada e controle","Intervalo mínimo"],c:2},
-
-{q:"Um erro comum no agachamento que aumenta risco de lesão é:",a:["Olhar à frente","Joelhos colapsando","Pés levemente abertos","Abdômen contraído"],c:1},
-{q:"No supino, além do peitoral, qual músculo atua como sinergista?",a:["Bíceps","Trapézio","Tríceps","Dorsal"],c:2},
-{q:"Dor lombar no leg press geralmente está associada a:",a:["Carga leve","Boa execução","Má posição do quadril","Descanso excessivo"],c:2},
-{q:"Para iniciantes, a prioridade no treino deve ser:",a:["Falha muscular","Carga alta","Execução correta","Menos séries"],c:2},
-
-{q:"No agachamento, perda da curvatura lombar apenas no final da amplitude indica que a melhor intervenção inicial é:",a:["Manter execução","Reduzir carga mantendo amplitude","Reduzir amplitude e trabalhar controle/mobilidade","Trocar por máquina"],c:2},
-{q:"No supino, desconforto anterior no ombro sem dor aguda tende a melhorar com:",a:["Redução de carga","Mais descanso","Ajuste escapular e cotovelos","Troca por máquina"],c:2},
-{q:"Dor anterior no joelho no leg press deve ser avaliada primeiro quanto a:",a:["Volume semanal","Velocidade","Posição dos pés e amplitude","Frequência"],c:2},
-{q:"Evolução rápida seguida de desconfortos articulares indica ajuste em:",a:["Frequência","Exercícios isolados","Volume e distribuição semanal","Amplitude"],c:2}
-],
-
-1: [ // FEVEREIRO
-{q:"Antes de iniciar o treino, o estagiário deve:",a:["Escolher exercícios avançados","Ajustar carga máxima","Conferir regulagens","Reduzir descanso"],c:2},
-{q:"Qual exercício trabalha principalmente o peitoral?",a:["Puxada","Supino","Rosca","Desenvolvimento"],c:1},
-{q:"Respiração correta durante o exercício:",a:["Prender ar","Irregular","Expirar no esforço","Respirar só no final"],c:2},
-{q:"No agachamento, articulação mais exigida:",a:["Ombro","Cotovelo","Joelho","Punho"],c:2},
-
-{q:"Na cadeira extensora, músculo principal:",a:["Isquiotibiais","Glúteo","Quadríceps","Panturrilha"],c:2},
-{q:"Erro no supino que aumenta risco no ombro:",a:["Escápulas estáveis","Pegada firme","Cotovelos abertos","Pés apoiados"],c:2},
-{q:"Descanso ideal para iniciantes:",a:["<20s","30–60s","60–90s",">3min"],c:2},
-{q:"Dor no joelho no leg press pode indicar:",a:["Boa execução","Pés mal posicionados","Carga leve","Ritmo lento"],c:1},
-
-{q:"Perda lombar no agachamento no final da série pede:",a:["Correção verbal","Manter execução","Reduzir amplitude e reforçar controle","Trocar exercício"],c:2},
-{q:"Desconforto no ombro no supino melhora com:",a:["Menos carga","Mais descanso","Ajuste escapular e cotovelos","Máquina"],c:2},
-{q:"Dor no joelho ao final da série deve avaliar primeiro:",a:["Volume","Velocidade","Amplitude e pés","Frequência"],c:2},
-{q:"Estagnação com desconfortos pede ajuste em:",a:["Frequência","Exercícios","Distribuição do volume","Amplitude"],c:2}
+0: [
+{q:"Qual músculo é o principal responsável pela extensão do joelho?",a:["Bíceps femoral","Glúteo máximo","Quadríceps","Panturrilha"],c:2},
+{q:"Antes do supino, qual ajuste é essencial?",a:["Carga","Altura do banco","Velocidade","Descanso"],c:1},
+{q:"Erro comum no agachamento:",a:["Olhar à frente","Joelhos para dentro","Core ativo","Pés alinhados"],c:1},
+{q:"Dor lombar no leg press geralmente indica:",a:["Boa execução","Má posição do quadril","Carga leve","Descanso curto"],c:1}
 ]
 };
 
 // ===== CONTROLE DE DATA =====
-if (hoje < inicioTreinamento) {
-    document.getElementById("bloqueio").classList.remove("hidden");
-} else {
+if (hoje >= inicioTreinamento) {
     document.getElementById("inicio").classList.remove("hidden");
+} else {
+    document.getElementById("bloqueio").classList.remove("hidden");
 }
 
 let perguntasAtuais = [];
 
+// ===== INICIAR =====
 function iniciar() {
     const nome = document.getElementById("nome").value.trim();
-    if (!nome) { alert("Digite seu nome."); return; }
+    if (!nome) {
+        alert("Digite seu nome.");
+        return;
+    }
 
     const mes = hoje.getMonth();
     perguntasAtuais = perguntasPorMes[mes];
@@ -118,6 +111,7 @@ function iniciar() {
     gerarQuiz();
 }
 
+// ===== GERAR QUIZ =====
 function gerarQuiz() {
     const form = document.getElementById("quiz");
     form.innerHTML = "";
@@ -127,7 +121,11 @@ function gerarQuiz() {
         div.className = "question";
         div.innerHTML = `<p><strong>${i+1}. ${p.q}</strong></p>`;
         p.a.forEach((alt,j)=>{
-            div.innerHTML += `<label><input type="radio" name="q${i}" value="${j}"> ${alt}</label><br>`;
+            div.innerHTML += `
+              <label>
+                <input type="radio" name="q${i}" value="${j}">
+                ${alt}
+              </label><br>`;
         });
         form.appendChild(div);
     });
@@ -136,6 +134,7 @@ function gerarQuiz() {
     form.classList.remove("hidden");
 }
 
+// ===== FINALIZAR =====
 function finalizar() {
     let acertos = 0;
     perguntasAtuais.forEach((p,i)=>{
@@ -145,19 +144,15 @@ function finalizar() {
 
     const nota = ((acertos / perguntasAtuais.length) * 10).toFixed(1);
     const nome = document.getElementById("nome").value.trim();
-    const unidade = "Panobianco Vila Império";
-    const hoje = new Date();
     const mesAno = (hoje.getMonth()+1).toString().padStart(2,"0") + "/" + hoje.getFullYear();
 
-    fetch("https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec", {
+    fetch(WEB_APP_URL, {
         method: "POST",
         mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             nome: nome,
-            unidade: unidade,
+            unidade: UNIDADE,
             mesAno: mesAno,
             nota: nota
         })
@@ -165,13 +160,10 @@ function finalizar() {
 
     document.getElementById("quiz").classList.add("hidden");
     document.getElementById("resultado").innerHTML =
-        `<h2>Nota final: ${nota}</h2><p>Resultado registrado com sucesso.</p>`;
+      `<h2>Nota final: ${nota}</h2><p>Resultado registrado com sucesso.</p>`;
     document.getElementById("resultado").classList.remove("hidden");
-}
-
 }
 </script>
 
 </body>
 </html>
-
