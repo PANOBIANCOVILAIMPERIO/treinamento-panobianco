@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Treinamento de Estagiários – Panobianco Vila Império</title>
+<title>Treinamento Estagiário Panobianco Vila Império</title>
 
 <style>
 body {
@@ -16,8 +16,8 @@ body {
     padding: 30px;
     text-align: center;
 }
-h1 { font-size: 26px; margin-bottom: 5px; }
-h2 { font-size: 18px; color: #555; margin-top: 0; }
+h1 { font-size: 26px; }
+h2 { font-size: 18px; color: #555; }
 .question {
     text-align: left;
     margin-top: 25px;
@@ -28,13 +28,8 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
-.hidden {
-    display: none;
-}
-input {
-    padding: 8px;
-    width: 70%;
-}
+.hidden { display: none; }
+input { padding: 8px; width: 70%; }
 </style>
 </head>
 
@@ -42,127 +37,127 @@ input {
 
 <div class="container">
 
-<img src="logo-panobianco.png" alt="Panobianco" style="max-width:180px; margin-bottom:20px;">
+<img src="logo-panobianco.png" style="max-width:180px;margin-bottom:20px">
 
-<h1>Treinamento de Estagiários – Panobianco Vila Império</h1>
-<h2>Avaliação Mensal de Musculação</h2>
+<h1>Treinamento Estagiário</h1>
+<h2>Panobianco Vila Império</h2>
 
-<!-- BLOQUEIO -->
 <div id="bloqueio" class="hidden">
-    <p><strong>Avaliação ainda não liberada.</strong></p>
+<p><strong>Avaliação disponível a partir de janeiro de 2026.</strong></p>
 </div>
 
-<!-- INÍCIO -->
 <div id="inicio" class="hidden">
-    <p>Digite seu nome completo:</p>
-    <input type="text" id="nome">
-    <br>
-    <button onclick="iniciar()">Iniciar Avaliação</button>
+<p>Digite seu nome completo:</p>
+<input id="nome" type="text">
+<br>
+<button onclick="iniciar()">Iniciar Avaliação</button>
 </div>
 
-<!-- QUIZ -->
 <form id="quiz" class="hidden"></form>
-
-<!-- RESULTADO -->
 <div id="resultado" class="hidden"></div>
 
 </div>
 
 <script>
-// ===== CONFIGURAÇÕES =====
+/* ===== CONFIGURAÇÕES ===== */
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec";
 const UNIDADE = "Panobianco Vila Império";
-
-// LIBERADO PARA TESTE (depois volte para 2026-01-01)
 const inicioTreinamento = new Date("2026-01-01");
-
 const hoje = new Date();
 
-// ===== PERGUNTAS (EXEMPLO JANEIRO) =====
+/* ===== PERGUNTAS (12 POR MÊS) ===== */
 const perguntasPorMes = {
-0: [
-{q:"Qual músculo é o principal responsável pela extensão do joelho?",a:["Bíceps femoral","Glúteo máximo","Quadríceps","Panturrilha"],c:2},
-{q:"Antes do supino, qual ajuste é essencial?",a:["Carga","Altura do banco","Velocidade","Descanso"],c:1},
-{q:"Erro comum no agachamento:",a:["Olhar à frente","Joelhos para dentro","Core ativo","Pés alinhados"],c:1},
-{q:"Dor lombar no leg press geralmente indica:",a:["Boa execução","Má posição do quadril","Carga leve","Descanso curto"],c:1}
+0:[ // JANEIRO
+{q:"Qual músculo principal no agachamento?",a:["Isquiotibiais","Quadríceps","Deltóide","Trapézio"],c:1},
+{q:"A função do core durante exercícios é:",a:["Gerar força","Estabilizar a coluna","Alongar","Relaxar"],c:1},
+{q:"Erro comum no supino:",a:["Escápulas retraídas","Pés no chão","Cotovelos muito abertos","Respiração controlada"],c:2},
+{q:"No leg press, lombar sai do banco indica:",a:["Boa execução","Carga excessiva","Amplitude correta","Core ativo"],c:1},
+
+{q:"Amplitude parcial pode ser usada quando:",a:["Iniciante absoluto","Há limitação articular","Sempre","Nunca"],c:1},
+{q:"A respiração correta no esforço é:",a:["Inspirar","Prender","Expirar","Aleatória"],c:2},
+{q:"Excesso de volume pode causar:",a:["Hipertrofia contínua","Overtraining","Ganho técnico","Recuperação rápida"],c:1},
+{q:"Descanso curto demais prejudica:",a:["Força","Mobilidade","Alongamento","Postura"],c:0},
+
+{q:"Dor muscular tardia indica necessariamente hipertrofia?",a:["Sempre","Nunca","Às vezes","É irrelevante"],c:2},
+{q:"Treinar até a falha é indicado:",a:["Sempre","Nunca","Em contextos específicos","Só para iniciantes"],c:2},
+{q:"Instabilidade no exercício pode:",a:["Sempre ajudar","Sempre atrapalhar","Depender do objetivo","Substituir carga"],c:2},
+{q:"Cadência muito rápida tende a:",a:["Melhorar controle","Aumentar risco","Otimizar técnica","Reduzir impacto"],c:1}
+],
+
+1:[ // FEVEREIRO
+{q:"O bíceps atua principalmente na:",a:["Extensão do cotovelo","Flexão do cotovelo","Abdução","Rotação"],c:1},
+{q:"Alongamento dinâmico é indicado:",a:["Após treino","Antes do treino","Durante descanso","Nunca"],c:1},
+{q:"Erro no stiff:",a:["Coluna neutra","Quadril recua","Flexão excessiva lombar","Controle excêntrico"],c:2},
+{q:"Carga excessiva pode gerar:",a:["Melhora técnica","Compensações","Mais controle","Melhor postura"],c:1},
+
+{q:"Ordem de exercícios influencia:",a:["Nada","Apenas estética","Desempenho","Alongamento"],c:2},
+{q:"Intervalo longo favorece:",a:["Resistência","Força","Alongamento","Coordenação"],c:1},
+{q:"Treinar com dor articular:",a:["É normal","É recomendado","Deve ser evitado","Melhora adaptação"],c:2},
+{q:"Exercício multiarticular recruta:",a:["Um músculo","Vários músculos","Nenhum","Somente estabilizadores"],c:1},
+
+{q:"Velocidade excêntrica lenta:",a:["Sempre ruim","Sempre boa","Depende do objetivo","Não interfere"],c:2},
+{q:"Volume excessivo sem recuperação gera:",a:["Adaptação","Platô","Overreaching","Força máxima"],c:1},
+{q:"Técnica perfeita elimina risco?",a:["Sim","Não","Às vezes","Depende da carga"],c:1},
+{q:"Estabilidade precede intensidade porque:",a:["Evita fadiga","Melhora estética","Reduz risco","Aumenta carga"],c:2}
 ]
 };
 
-// ===== CONTROLE DE DATA =====
+/* ===== CONTROLE ===== */
 if (hoje >= inicioTreinamento) {
-    document.getElementById("inicio").classList.remove("hidden");
+document.getElementById("inicio").classList.remove("hidden");
 } else {
-    document.getElementById("bloqueio").classList.remove("hidden");
+document.getElementById("bloqueio").classList.remove("hidden");
 }
 
-let perguntasAtuais = [];
+let perguntasAtuais=[];
 
-// ===== INICIAR =====
-function iniciar() {
-    const nome = document.getElementById("nome").value.trim();
-    if (!nome) {
-        alert("Digite seu nome.");
-        return;
-    }
-
-    const mes = hoje.getMonth();
-    perguntasAtuais = perguntasPorMes[mes];
-
-    document.getElementById("inicio").classList.add("hidden");
-    gerarQuiz();
+/* ===== INICIAR ===== */
+function iniciar(){
+const nome=document.getElementById("nome").value.trim();
+if(!nome){alert("Digite seu nome");return;}
+perguntasAtuais=perguntasPorMes[hoje.getMonth()];
+document.getElementById("inicio").classList.add("hidden");
+gerarQuiz();
 }
 
-// ===== GERAR QUIZ =====
-function gerarQuiz() {
-    const form = document.getElementById("quiz");
-    form.innerHTML = "";
-
-    perguntasAtuais.forEach((p,i)=>{
-        const div = document.createElement("div");
-        div.className = "question";
-        div.innerHTML = `<p><strong>${i+1}. ${p.q}</strong></p>`;
-        p.a.forEach((alt,j)=>{
-            div.innerHTML += `
-              <label>
-                <input type="radio" name="q${i}" value="${j}">
-                ${alt}
-              </label><br>`;
-        });
-        form.appendChild(div);
-    });
-
-    form.innerHTML += `<button type="button" onclick="finalizar()">Finalizar Avaliação</button>`;
-    form.classList.remove("hidden");
+/* ===== GERAR ===== */
+function gerarQuiz(){
+const form=document.getElementById("quiz");
+form.innerHTML="";
+perguntasAtuais.forEach((p,i)=>{
+let d=document.createElement("div");
+d.className="question";
+d.innerHTML=`<p><strong>${i+1}. ${p.q}</strong></p>`;
+p.a.forEach((alt,j)=>{
+d.innerHTML+=`<label><input type="radio" name="q${i}" value="${j}"> ${alt}</label><br>`;
+});
+form.appendChild(d);
+});
+form.innerHTML+=`<button type="button" onclick="finalizar()">Finalizar Avaliação</button>`;
+form.classList.remove("hidden");
 }
 
-// ===== FINALIZAR =====
-function finalizar() {
-    let acertos = 0;
-    perguntasAtuais.forEach((p,i)=>{
-        const r = document.querySelector(`input[name="q${i}"]:checked`);
-        if (r && parseInt(r.value) === p.c) acertos++;
-    });
+/* ===== FINALIZAR ===== */
+function finalizar(){
+let acertos=0;
+perguntasAtuais.forEach((p,i)=>{
+const r=document.querySelector(`input[name="q${i}"]:checked`);
+if(r && parseInt(r.value)===p.c) acertos++;
+});
+const nota=((acertos/perguntasAtuais.length)*10).toFixed(1);
+const nome=document.getElementById("nome").value.trim();
+const mesAno=(hoje.getMonth()+1).toString().padStart(2,"0")+"/"+hoje.getFullYear();
 
-    const nota = ((acertos / perguntasAtuais.length) * 10).toFixed(1);
-    const nome = document.getElementById("nome").value.trim();
-    const mesAno = (hoje.getMonth()+1).toString().padStart(2,"0") + "/" + hoje.getFullYear();
+fetch(WEB_APP_URL,{
+method:"POST",
+mode:"no-cors",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({nome:nome,unidade:UNIDADE,mesAno:mesAno,nota:nota})
+});
 
-    fetch(WEB_APP_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            nome: nome,
-            unidade: UNIDADE,
-            mesAno: mesAno,
-            nota: nota
-        })
-    });
-
-    document.getElementById("quiz").classList.add("hidden");
-    document.getElementById("resultado").innerHTML =
-      `<h2>Nota final: ${nota}</h2><p>Resultado registrado com sucesso.</p>`;
-    document.getElementById("resultado").classList.remove("hidden");
+document.getElementById("quiz").classList.add("hidden");
+document.getElementById("resultado").innerHTML=`<h2>Nota final: ${nota}</h2><p>Resultado registrado com sucesso.</p>`;
+document.getElementById("resultado").classList.remove("hidden");
 }
 </script>
 
