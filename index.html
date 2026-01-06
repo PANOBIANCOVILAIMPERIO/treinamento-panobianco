@@ -60,24 +60,23 @@ input { padding: 8px; width: 70%; }
 
 <script>
 /* ===== CONFIGURAÇÕES ===== */
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec
+";
 const UNIDADE = "Panobianco Vila Império";
 const inicioTreinamento = new Date("2026-01-01");
 const hoje = new Date();
 
-/* ===== PERGUNTAS (12 POR MÊS) ===== */
+/* ===== PERGUNTAS ===== */
 const perguntasPorMes = {
 0:[ // JANEIRO
 {q:"Qual músculo principal no agachamento?",a:["Isquiotibiais","Quadríceps","Deltóide","Trapézio"],c:1},
 {q:"A função do core durante exercícios é:",a:["Gerar força","Estabilizar a coluna","Alongar","Relaxar"],c:1},
 {q:"Erro comum no supino:",a:["Escápulas retraídas","Pés no chão","Cotovelos muito abertos","Respiração controlada"],c:2},
 {q:"No leg press, lombar sai do banco indica:",a:["Boa execução","Carga excessiva","Amplitude correta","Core ativo"],c:1},
-
 {q:"Amplitude parcial pode ser usada quando:",a:["Iniciante absoluto","Há limitação articular","Sempre","Nunca"],c:1},
 {q:"A respiração correta no esforço é:",a:["Inspirar","Prender","Expirar","Aleatória"],c:2},
 {q:"Excesso de volume pode causar:",a:["Hipertrofia contínua","Overtraining","Ganho técnico","Recuperação rápida"],c:1},
 {q:"Descanso curto demais prejudica:",a:["Força","Mobilidade","Alongamento","Postura"],c:0},
-
 {q:"Dor muscular tardia indica necessariamente hipertrofia?",a:["Sempre","Nunca","Às vezes","É irrelevante"],c:2},
 {q:"Treinar até a falha é indicado:",a:["Sempre","Nunca","Em contextos específicos","Só para iniciantes"],c:2},
 {q:"Instabilidade no exercício pode:",a:["Sempre ajudar","Sempre atrapalhar","Depender do objetivo","Substituir carga"],c:2},
@@ -89,12 +88,10 @@ const perguntasPorMes = {
 {q:"Alongamento dinâmico é indicado:",a:["Após treino","Antes do treino","Durante descanso","Nunca"],c:1},
 {q:"Erro no stiff:",a:["Coluna neutra","Quadril recua","Flexão excessiva lombar","Controle excêntrico"],c:2},
 {q:"Carga excessiva pode gerar:",a:["Melhora técnica","Compensações","Mais controle","Melhor postura"],c:1},
-
 {q:"Ordem de exercícios influencia:",a:["Nada","Apenas estética","Desempenho","Alongamento"],c:2},
 {q:"Intervalo longo favorece:",a:["Resistência","Força","Alongamento","Coordenação"],c:1},
 {q:"Treinar com dor articular:",a:["É normal","É recomendado","Deve ser evitado","Melhora adaptação"],c:2},
 {q:"Exercício multiarticular recruta:",a:["Um músculo","Vários músculos","Nenhum","Somente estabilizadores"],c:1},
-
 {q:"Velocidade excêntrica lenta:",a:["Sempre ruim","Sempre boa","Depende do objetivo","Não interfere"],c:2},
 {q:"Volume excessivo sem recuperação gera:",a:["Adaptação","Platô","Overreaching","Força máxima"],c:1},
 {q:"Técnica perfeita elimina risco?",a:["Sim","Não","Às vezes","Depende da carga"],c:1},
@@ -102,62 +99,80 @@ const perguntasPorMes = {
 ]
 };
 
-/* ===== CONTROLE ===== */
+/* ===== CONTROLE DE DATA ===== */
 if (hoje >= inicioTreinamento) {
-document.getElementById("inicio").classList.remove("hidden");
+    document.getElementById("inicio").classList.remove("hidden");
 } else {
-document.getElementById("bloqueio").classList.remove("hidden");
+    document.getElementById("bloqueio").classList.remove("hidden");
 }
 
-let perguntasAtuais=[];
+let perguntasAtuais = [];
 
 /* ===== INICIAR ===== */
 function iniciar(){
-const nome=document.getElementById("nome").value.trim();
-if(!nome){alert("Digite seu nome");return;}
-perguntasAtuais=perguntasPorMes[hoje.getMonth()];
-document.getElementById("inicio").classList.add("hidden");
-gerarQuiz();
+    const nome = document.getElementById("nome").value.trim();
+    if(!nome){ alert("Digite seu nome"); return; }
+    perguntasAtuais = perguntasPorMes[hoje.getMonth()];
+    document.getElementById("inicio").classList.add("hidden");
+    gerarQuiz();
 }
 
-/* ===== GERAR ===== */
+/* ===== GERAR QUIZ ===== */
 function gerarQuiz(){
-const form=document.getElementById("quiz");
-form.innerHTML="";
-perguntasAtuais.forEach((p,i)=>{
-let d=document.createElement("div");
-d.className="question";
-d.innerHTML=`<p><strong>${i+1}. ${p.q}</strong></p>`;
-p.a.forEach((alt,j)=>{
-d.innerHTML+=`<label><input type="radio" name="q${i}" value="${j}"> ${alt}</label><br>`;
-});
-form.appendChild(d);
-});
-form.innerHTML+=`<button type="button" onclick="finalizar()">Finalizar Avaliação</button>`;
-form.classList.remove("hidden");
+    const form = document.getElementById("quiz");
+    form.innerHTML = "";
+
+    perguntasAtuais.forEach((p,i)=>{
+        let d = document.createElement("div");
+        d.className = "question";
+        d.innerHTML = `<p><strong>${i+1}. ${p.q}</strong></p>`;
+        p.a.forEach((alt,j)=>{
+            d.innerHTML += `<label><input type="radio" name="q${i}" value="${j}"> ${alt}</label><br>`;
+        });
+        form.appendChild(d);
+    });
+
+    form.innerHTML += `<button type="button" onclick="finalizar()">Finalizar Avaliação</button>`;
+    form.classList.remove("hidden");
 }
 
-/* ===== FINALIZAR ===== */
+/* ===== FINALIZAR (COM FEEDBACK) ===== */
 function finalizar(){
-let acertos=0;
-perguntasAtuais.forEach((p,i)=>{
-const r=document.querySelector(`input[name="q${i}"]:checked`);
-if(r && parseInt(r.value)===p.c) acertos++;
-});
-const nota=((acertos/perguntasAtuais.length)*10).toFixed(1);
-const nome=document.getElementById("nome").value.trim();
-const mesAno=(hoje.getMonth()+1).toString().padStart(2,"0")+"/"+hoje.getFullYear();
+    let acertos = 0;
+    let feedbackHTML = "";
 
-fetch(WEB_APP_URL,{
-method:"POST",
-mode:"no-cors",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({nome:nome,unidade:UNIDADE,mesAno:mesAno,nota:nota})
-});
+    perguntasAtuais.forEach((p,i)=>{
+        const r = document.querySelector(`input[name="q${i}"]:checked`);
+        const correta = p.c;
+        let status = "❌ Errou";
+        if (r && parseInt(r.value) === correta) {
+            acertos++;
+            status = "✅ Acertou";
+        }
 
-document.getElementById("quiz").classList.add("hidden");
-document.getElementById("resultado").innerHTML=`<h2>Nota final: ${nota}</h2><p>Resultado registrado com sucesso.</p>`;
-document.getElementById("resultado").classList.remove("hidden");
+        feedbackHTML += `
+        <div style="margin-bottom:15px;">
+            <strong>${i+1}. ${p.q}</strong><br>
+            <span>${status}</span><br>
+            <em>Resposta correta: ${p.a[correta]}</em>
+        </div>`;
+    });
+
+    const nota = ((acertos / perguntasAtuais.length) * 10).toFixed(1);
+    const nome = document.getElementById("nome").value.trim();
+    const mesAno = (hoje.getMonth()+1).toString().padStart(2,"0")+"/"+hoje.getFullYear();
+
+    fetch(WEB_APP_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({nome, unidade:UNIDADE, mesAno, nota})
+    });
+
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("resultado").innerHTML =
+        `<h2>Nota final: ${nota}</h2><h3>Resumo da avaliação</h3>${feedbackHTML}`;
+    document.getElementById("resultado").classList.remove("hidden");
 }
 </script>
 
