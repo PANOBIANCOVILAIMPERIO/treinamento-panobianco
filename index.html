@@ -26,6 +26,12 @@ input{padding:8px;width:70%}
 <div id="bloqueio" class="hidden">
 <p><strong>Avaliação disponível a partir de janeiro de 2026.</strong></p>
 </div>
+<div id="senhaBox" class="hidden">
+  <p><strong>Senha de liberação:</strong></p>
+  <input id="senha" type="password">
+  <br>
+  <button onclick="verificarSenha()">Liberar Avaliação</button>
+</div>
 
 <div id="inicio" class="hidden">
 <p>Digite seu nome completo:</p>
@@ -38,10 +44,24 @@ input{padding:8px;width:70%}
 </div>
 
 <script>
-const WEB_APP_URL="https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec";
-const UNIDADE="Panobianco Vila Império";
-const inicioTreinamento=new Date(2026,0,1);
-const hoje=new Date();
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec";
+const UNIDADE = "Panobianco Vila Império";
+const SENHA_LIBERACAO = "696907";
+const inicioTreinamento = new Date(2026, 0, 1);
+const hoje = new Date();
+
+function verificarSenha(){
+    const senhaDigitada = document.getElementById("senha").value;
+
+    if (senhaDigitada === SENHA_LIBERACAO) {
+        document.getElementById("senhaBox").classList.add("hidden");
+        document.getElementById("inicio").classList.remove("hidden");
+    } else {
+        alert("Senha incorreta");
+    }
+}
+</script>
+
 
 /* ================= BANCO DE PERGUNTAS ================= */
 const perguntasPorMes={
