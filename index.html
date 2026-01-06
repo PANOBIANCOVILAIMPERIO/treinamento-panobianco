@@ -19,52 +19,49 @@ input{padding:8px;width:70%}
 <body>
 
 <div class="container">
+
 <img src="logo-panobianco.png" style="max-width:180px;margin-bottom:20px">
+
 <h1>Treinamento Estagiário</h1>
 <h2>Panobianco Vila Império</h2>
 
+<!-- BLOQUEIO POR DATA -->
 <div id="bloqueio" class="hidden">
 <p><strong>Avaliação disponível a partir de janeiro de 2026.</strong></p>
 </div>
+
+<!-- SENHA -->
 <div id="senhaBox" class="hidden">
-  <p><strong>Senha de liberação:</strong></p>
-  <input id="senha" type="password">
-  <br>
-  <button onclick="verificarSenha()">Liberar Avaliação</button>
+<p><strong>Senha de liberação:</strong></p>
+<input id="senha" type="password">
+<br>
+<button onclick="verificarSenha()">Liberar Avaliação</button>
 </div>
 
+<!-- NOME -->
 <div id="inicio" class="hidden">
 <p>Digite seu nome completo:</p>
-<input id="nome" type="text"><br>
+<input id="nome" type="text">
+<br>
 <button onclick="iniciar()">Iniciar Avaliação</button>
 </div>
 
 <form id="quiz" class="hidden"></form>
 <div id="resultado" class="hidden"></div>
+
 </div>
 
 <script>
+/* ================= CONFIGURAÇÕES ================= */
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbywhvfOs_USjKqhRF7_GuBrrJdebJW29vvESZvoWu173w5zgk30KsPiDT6APfpTiVw1Vg/exec";
 const UNIDADE = "Panobianco Vila Império";
 const SENHA_LIBERACAO = "696907";
-const inicioTreinamento = new Date(2026, 0, 1);
+const inicioTreinamento = new Date(2026,0,1);
 const hoje = new Date();
 
-function verificarSenha(){
-    const senhaDigitada = document.getElementById("senha").value;
+/* ================= BANCO DE PERGUNTAS (12 MESES) ================= */
+const perguntasPorMes = {
 
-    if (senhaDigitada === SENHA_LIBERACAO) {
-        document.getElementById("senhaBox").classList.add("hidden");
-        document.getElementById("inicio").classList.remove("hidden");
-    } else {
-        alert("Senha incorreta");
-    }
-}
-</script>
-
-
-/* ================= BANCO DE PERGUNTAS ================= */
-const perguntasPorMes={
 0:[ // JANEIRO – BASE TÉCNICA
 {q:"Músculo principal no agachamento?",a:["Isquiotibiais","Quadríceps","Trapézio","Deltóide"],c:1},
 {q:"Função do core:",a:["Gerar força","Estabilizar coluna","Alongar","Relaxar"],c:1},
@@ -96,45 +93,45 @@ const perguntasPorMes={
 ],
 
 2:[ // MARÇO – BIOMECÂNICA
-{q:"Função do glúteo máximo:",a:["Flexão","Extensão do quadril","Abdução","Rotação"],c:1},
+{q:"Função do glúteo máximo?",a:["Flexão","Extensão do quadril","Abdução","Rotação"],c:1},
 {q:"Valgo dinâmico ocorre quando:",a:["Joelhos alinham","Joelhos entram","Pés abrem","Quadril trava"],c:1},
 {q:"Erro no agachamento frontal:",a:["Tronco ereto","Cotovelos baixos","Core ativo","Carga moderada"],c:1},
-{q:"Mobilidade limitada afeta:",a:["Apenas estética","Execução","Respiração","Alongamento"],c:1},
-{q:"Centro de massa mal posicionado:",a:["Ajuda carga","Gera compensação","Não interfere","Melhora técnica"],c:1},
+{q:"Mobilidade limitada afeta:",a:["Estética","Execução","Respiração","Alongamento"],c:1},
+{q:"Centro de massa mal posicionado:",a:["Ajuda","Compensa","Não interfere","Melhora"],c:1},
 {q:"Amplitude segura depende de:",a:["Carga","Mobilidade","Equipamento","Velocidade"],c:1},
-{q:"Dor articular durante exercício indica:",a:["Adaptação","Erro técnico","Hipertrofia","Fadiga normal"],c:1},
+{q:"Dor articular indica:",a:["Adaptação","Erro técnico","Hipertrofia","Fadiga"],c:1},
 {q:"Controle excêntrico serve para:",a:["Velocidade","Segurança","Relaxamento","Descanso"],c:1},
-{q:"Instabilidade excessiva:",a:["Sempre ajuda","Sempre prejudica","Depende do objetivo","Substitui carga"],c:2},
-{q:"Carga alta sem técnica:",a:["Acelera ganho","Aumenta risco","É neutra","Melhora postura"],c:1},
-{q:"Compensações surgem por:",a:["Força excessiva","Limitações","Boa técnica","Alta coordenação"],c:1},
+{q:"Instabilidade excessiva:",a:["Sempre boa","Sempre ruim","Depende do objetivo","Substitui carga"],c:2},
+{q:"Carga alta sem técnica:",a:["Ajuda","Aumenta risco","Neutra","Postura"],c:1},
+{q:"Compensações surgem por:",a:["Força","Limitações","Boa técnica","Coordenação"],c:1},
 {q:"Biomecânica correta prioriza:",a:["Carga","Controle","Velocidade","Volume"],c:1}
 ],
 
 3:[ // ABRIL – OMBRO
-{q:"Função do manguito rotador:",a:["Força","Estabilidade","Hipertrofia","Mobilidade"],c:1},
-{q:"Erro comum no desenvolvimento:",a:["Core ativo","Arco lombar excessivo","Carga moderada","Respiração"],c:1},
+{q:"Função do manguito rotador?",a:["Força","Estabilidade","Hipertrofia","Mobilidade"],c:1},
+{q:"Erro no desenvolvimento:",a:["Core ativo","Arco lombar excessivo","Carga moderada","Respiração"],c:1},
 {q:"Elevação lateral recruta:",a:["Deltóide anterior","Deltóide médio","Peitoral","Trapézio"],c:1},
-{q:"Dor no ombro pode indicar:",a:["Boa execução","Instabilidade","Hipertrofia","Alongamento"],c:1},
-{q:"Amplitude excessiva no ombro:",a:["Sempre segura","Pode gerar impacto","Melhora técnica","Não interfere"],c:1},
+{q:"Dor no ombro indica:",a:["Boa execução","Instabilidade","Hipertrofia","Alongamento"],c:1},
+{q:"Amplitude excessiva no ombro:",a:["Segura","Pode gerar impacto","Ideal","Não interfere"],c:1},
 {q:"Controle escapular é importante para:",a:["Estética","Segurança","Carga","Velocidade"],c:1},
-{q:"Carga alta em instabilidade:",a:["Recomendada","Arriscada","Neutra","Obrigatória"],c:1},
-{q:"Ombro é uma articulação:",a:["Estável","Instável","Fixa","Imóvel"],c:1},
+{q:"Carga alta instável é:",a:["Recomendada","Arriscada","Neutra","Obrigatória"],c:1},
+{q:"Ombro é articulação:",a:["Estável","Instável","Fixa","Imóvel"],c:1},
 {q:"Técnica ruim aumenta:",a:["Força","Risco","Controle","Mobilidade"],c:1},
-{q:"Exercícios isolados servem para:",a:["Coordenação","Foco muscular","Cardio","Alongamento"],c:1},
-{q:"Dor persistente exige:",a:["Ignorar","Ajuste técnico","Mais carga","Falha"],c:1},
+{q:"Isolados servem para:",a:["Coordenação","Foco muscular","Cardio","Alongamento"],c:1},
+{q:"Dor persistente exige:",a:["Ignorar","Ajuste técnico","Carga","Falha"],c:1},
 {q:"Progressão segura prioriza:",a:["Carga","Técnica","Velocidade","Volume"],c:1}
 ],
 
 4:[ // MAIO – COSTAS
 {q:"Principal músculo da puxada:",a:["Peitoral","Dorsal","Trapézio","Deltóide"],c:1},
-{q:"Erro comum na remada:",a:["Escápulas ativas","Roubo excessivo","Postura neutra","Controle"],c:1},
-{q:"Extensão excessiva lombar:",a:["Protege","Compensa","Ajuda carga","Não interfere"],c:1},
+{q:"Erro comum na remada:",a:["Escápulas ativas","Roubo excessivo","Postura","Controle"],c:1},
+{q:"Extensão lombar excessiva:",a:["Protege","Compensa","Ajuda","Não interfere"],c:1},
 {q:"Costas fortes auxiliam:",a:["Postura","Respiração","Alongamento","Flexibilidade"],c:0},
 {q:"Puxar com braços reduz:",a:["Carga","Ativação dorsal","Técnica","Estabilidade"],c:1},
 {q:"Pegada influencia:",a:["Nada","Recrutamento","Respiração","Alongamento"],c:1},
 {q:"Falta de controle gera:",a:["Segurança","Compensação","Força","Mobilidade"],c:1},
 {q:"Coluna neutra é:",a:["Opcional","Essencial","Estética","Avançada"],c:1},
-{q:"Carga alta sem controle:",a:["Otimiza","Aumenta risco","É neutra","É ideal"],c:1},
+{q:"Carga alta sem controle:",a:["Otimiza","Aumenta risco","Neutra","Ideal"],c:1},
 {q:"Amplitude limitada pode ser:",a:["Erro","Necessária","Sempre errada","Proibida"],c:1},
 {q:"Costas estabilizam:",a:["Quadril","Tronco","Joelho","Pescoço"],c:1},
 {q:"Remadas melhoram:",a:["Estética","Postura","Flexibilidade","Alongamento"],c:1}
@@ -147,40 +144,40 @@ const perguntasPorMes={
 {q:"Joelhos alinhados evitam:",a:["Carga","Dor","Lesões","Força"],c:2},
 {q:"Amplitude profunda depende de:",a:["Carga","Mobilidade","Equipamento","Descanso"],c:1},
 {q:"Pés mal posicionados causam:",a:["Estabilidade","Compensação","Força","Controle"],c:1},
-{q:"Dor anterior no joelho pode indicar:",a:["Boa técnica","Erro mecânico","Ganho","Alongamento"],c:1},
-{q:"Força sem controle:",a:["É ideal","É arriscada","É neutra","É segura"],c:1},
-{q:"Exercícios unilaterais ajudam:",a:["Carga","Equilíbrio","Velocidade","Alongamento"],c:1},
-{q:"Volume excessivo:",a:["Ajuda","Prejudica","É neutro","É ideal"],c:1},
+{q:"Dor anterior no joelho indica:",a:["Boa técnica","Erro mecânico","Ganho","Alongamento"],c:1},
+{q:"Força sem controle é:",a:["Ideal","Arriscada","Neutra","Segura"],c:1},
+{q:"Unilaterais ajudam:",a:["Carga","Equilíbrio","Velocidade","Alongamento"],c:1},
+{q:"Volume excessivo:",a:["Ajuda","Prejudica","Neutro","Ideal"],c:1},
 {q:"Descanso influencia:",a:["Nada","Desempenho","Alongamento","Flexibilidade"],c:1},
 {q:"Pernas fortes auxiliam:",a:["Postura","Respiração","Coordenação","Alongamento"],c:0}
 ],
 
 6:[ // JULHO – CORE
-{q:"Core envolve:",a:["Abdômen apenas","Múltiplos músculos","Só lombar","Só glúteos"],c:1},
-{q:"Função principal do core:",a:["Estética","Estabilidade","Alongamento","Força isolada"],c:1},
-{q:"Erro comum em prancha:",a:["Respirar","Quadril caído","Ativação","Controle"],c:1},
+{q:"Core envolve:",a:["Abdômen","Vários músculos","Só lombar","Só glúteos"],c:1},
+{q:"Função do core:",a:["Estética","Estabilidade","Alongamento","Força isolada"],c:1},
+{q:"Erro em prancha:",a:["Respirar","Quadril caído","Ativação","Controle"],c:1},
 {q:"Core fraco gera:",a:["Segurança","Compensação","Força","Controle"],c:1},
-{q:"Exercícios anti-rotação servem para:",a:["Hipertrofia","Estabilidade","Alongamento","Cardio"],c:1},
+{q:"Anti-rotação serve para:",a:["Hipertrofia","Estabilidade","Alongamento","Cardio"],c:1},
 {q:"Respiração influencia:",a:["Nada","Estabilidade","Alongamento","Carga"],c:1},
 {q:"Core ativo protege:",a:["Joelho","Coluna","Ombro","Pescoço"],c:1},
-{q:"Carga alta sem core:",a:["Ajuda","Arrisca","Não interfere","É ideal"],c:1},
-{q:"Excesso de instabilidade:",a:["Sempre bom","Depende","Sempre ruim","Necessário"],c:1},
+{q:"Carga alta sem core:",a:["Ajuda","Arrisca","Neutra","Ideal"],c:1},
+{q:"Instabilidade excessiva:",a:["Sempre boa","Depende","Sempre ruim","Necessária"],c:1},
 {q:"Core treinado melhora:",a:["Postura","Respiração","Controle","Todas"],c:3},
-{q:"Dor lombar recorrente exige:",a:["Ignorar","Ajustar","Aumentar carga","Falha"],c:1},
+{q:"Dor lombar exige:",a:["Ignorar","Ajuste","Carga","Falha"],c:1},
 {q:"Core é base para:",a:["Isolados","Multiarticulares","Alongamento","Cardio"],c:1}
 ],
 
 7:[ // AGOSTO – PROGRESSÃO
-{q:"Progressão de carga deve ser:",a:["Aleatória","Planejada","Rápida","Forçada"],c:1},
+{q:"Progressão deve ser:",a:["Aleatória","Planejada","Rápida","Forçada"],c:1},
 {q:"Erro comum:",a:["Progredir pouco","Progredir sem técnica","Descansar","Controlar"],c:1},
-{q:"Volume x intensidade:",a:["Independem","Se relacionam","Não importam","São iguais"],c:1},
-{q:"Platô ocorre por:",a:["Descanso","Falta de estímulo","Boa técnica","Alongamento"],c:1},
+{q:"Volume e intensidade:",a:["Independem","Relacionam","Não importam","Iguais"],c:1},
+{q:"Platô ocorre por:",a:["Descanso","Falta estímulo","Boa técnica","Alongamento"],c:1},
 {q:"Recuperação é:",a:["Opcional","Essencial","Secundária","Avançada"],c:1},
 {q:"Sono influencia:",a:["Nada","Resultados","Alongamento","Mobilidade"],c:1},
 {q:"Overtraining surge por:",a:["Excesso","Técnica","Descanso","Alongamento"],c:0},
-{q:"Treinar pesado sempre:",a:["É ideal","É arriscado","É neutro","É obrigatório"],c:1},
+{q:"Treinar pesado sempre:",a:["Ideal","Arriscado","Neutro","Obrigatório"],c:1},
 {q:"Periodização serve para:",a:["Confundir","Organizar","Cansar","Alongar"],c:1},
-{q:"Falha frequente:",a:["Ajuda","Prejudica","É neutra","É ideal"],c:1},
+{q:"Falha frequente:",a:["Ajuda","Prejudica","Neutra","Ideal"],c:1},
 {q:"Carga sem recuperação:",a:["Evolui","Estagna","Acelera","Melhora"],c:1},
 {q:"Progredir bem exige:",a:["Força","Planejamento","Velocidade","Volume"],c:1}
 ],
@@ -189,24 +186,24 @@ const perguntasPorMes={
 {q:"Prioridade no treino:",a:["Carga","Segurança","Velocidade","Estética"],c:1},
 {q:"Dor aguda indica:",a:["Adaptação","Interrupção","Hipertrofia","Alongamento"],c:1},
 {q:"Erro técnico aumenta:",a:["Força","Risco","Controle","Mobilidade"],c:1},
-{q:"Equipamento mal regulado:",a:["Ajuda","Prejudica","Não interfere","É neutro"],c:1},
+{q:"Equipamento mal regulado:",a:["Ajuda","Prejudica","Neutro","Ideal"],c:1},
 {q:"Execução correta depende de:",a:["Carga","Ajuste","Velocidade","Descanso"],c:1},
 {q:"Atenção ao aluno evita:",a:["Ganho","Lesão","Carga","Alongamento"],c:1},
-{q:"Segurança é responsabilidade:",a:["Aluno","Professor","Equipamento","Ambiente"],c:1},
+{q:"Segurança é do:",a:["Aluno","Professor","Equipamento","Ambiente"],c:1},
 {q:"Carga sem controle:",a:["Ideal","Arriscada","Segura","Neutra"],c:1},
-{q:"Ignorar dor pode gerar:",a:["Evolução","Lesão","Controle","Alongamento"],c:1},
+{q:"Ignorar dor gera:",a:["Evolução","Lesão","Controle","Alongamento"],c:1},
 {q:"Postura inadequada afeta:",a:["Nada","Execução","Respiração","Alongamento"],c:1},
 {q:"Supervisão serve para:",a:["Cobrar","Corrigir","Acelerar","Punir"],c:1},
 {q:"Prevenção é:",a:["Opcional","Essencial","Secundária","Avançada"],c:1}
 ],
 
-9:[ // OUTUBRO – APLICAÇÃO PRÁTICA
+9:[ // OUTUBRO – PRÁTICA
 {q:"Avaliar aluno envolve:",a:["Carga","Histórico","Velocidade","Alongamento"],c:1},
 {q:"Exercício deve ser:",a:["Padrão","Individualizado","Aleatório","Fixo"],c:1},
 {q:"Erro comum:",a:["Adaptar","Copiar treino","Avaliar","Orientar"],c:1},
 {q:"Carga ideal depende de:",a:["Ego","Capacidade","Equipamento","Horário"],c:1},
 {q:"Treino seguro começa com:",a:["Carga","Avaliação","Falha","Volume"],c:1},
-{q:"Correção técnica deve ser:",a:["Ignorada","Imediata","Tardia","Opcional"],c:1},
+{q:"Correção técnica é:",a:["Ignorada","Imediata","Tardia","Opcional"],c:1},
 {q:"Feedback melhora:",a:["Carga","Execução","Alongamento","Descanso"],c:1},
 {q:"Boa comunicação evita:",a:["Ganho","Erro","Carga","Alongamento"],c:1},
 {q:"Treino genérico é:",a:["Ideal","Limitado","Perfeito","Avançado"],c:1},
@@ -244,54 +241,82 @@ const perguntasPorMes={
 {q:"Boa prática profissional exige:",a:["Carga","Responsabilidade","Velocidade","Alongamento"],c:1},
 {q:"Encerrar o ano significa:",a:["Parar","Consolidar","Esquecer","Recomeçar"],c:1}
 ]
+
 };
 
-/* ===== CONTROLE DE DATA ===== */
-if(hoje>=inicioTreinamento){
-document.getElementById("inicio").classList.remove("hidden");
-}else{
-document.getElementById("bloqueio").classList.remove("hidden");
+/* ================= CONTROLE INICIAL ================= */
+if (hoje >= inicioTreinamento) {
+    document.getElementById("senhaBox").classList.remove("hidden");
+} else {
+    document.getElementById("bloqueio").classList.remove("hidden");
 }
 
-let perguntasAtuais=[];
+let perguntasAtuais = [];
 
+/* ================= SENHA ================= */
+function verificarSenha(){
+    if(document.getElementById("senha").value === SENHA_LIBERACAO){
+        document.getElementById("senhaBox").classList.add("hidden");
+        document.getElementById("inicio").classList.remove("hidden");
+    } else {
+        alert("Senha incorreta");
+    }
+}
+
+/* ================= INICIAR ================= */
 function iniciar(){
-const nome=document.getElementById("nome").value.trim();
-if(!nome){alert("Digite seu nome");return;}
-perguntasAtuais=perguntasPorMes[hoje.getMonth()];
-document.getElementById("inicio").classList.add("hidden");
-gerarQuiz();
+    const nome = document.getElementById("nome").value.trim();
+    if(!nome){ alert("Digite seu nome"); return; }
+    perguntasAtuais = perguntasPorMes[hoje.getMonth()];
+    document.getElementById("inicio").classList.add("hidden");
+    gerarQuiz();
 }
 
+/* ================= GERAR QUIZ ================= */
 function gerarQuiz(){
-const f=document.getElementById("quiz");
-f.innerHTML="";
-perguntasAtuais.forEach((p,i)=>{
-let d=document.createElement("div");
-d.className="question";
-d.innerHTML=`<strong>${i+1}. ${p.q}</strong><br>`;
-p.a.forEach((alt,j)=>{
-d.innerHTML+=`<label><input type="radio" name="q${i}" value="${j}"> ${alt}</label><br>`;
-});
-f.appendChild(d);
-});
-f.innerHTML+=`<button type="button" onclick="finalizar()">Finalizar Avaliação</button>`;
-f.classList.remove("hidden");
+    const f = document.getElementById("quiz");
+    f.innerHTML = "";
+    perguntasAtuais.forEach((p,i)=>{
+        let d = document.createElement("div");
+        d.className = "question";
+        d.innerHTML = `<strong>${i+1}. ${p.q}</strong><br>`;
+        p.a.forEach((alt,j)=>{
+            d.innerHTML += `<label><input type="radio" name="q${i}" value="${j}"> ${alt}</label><br>`;
+        });
+        f.appendChild(d);
+    });
+    f.innerHTML += `<button type="button" onclick="finalizar()">Finalizar Avaliação</button>`;
+    f.classList.remove("hidden");
 }
 
+/* ================= FINALIZAR ================= */
 function finalizar(){
-let acertos=0,fb="";
-perguntasAtuais.forEach((p,i)=>{
-const r=document.querySelector(`input[name="q${i}"]:checked`);
-let ok=false;
-if(r && parseInt(r.value)===p.c){acertos++;ok=true;}
-fb+=`<div><b>${i+1}. ${p.q}</b><br>${ok?"✅ Acertou":"❌ Errou"}<br><em>Resposta correta: ${p.a[p.c]}</em></div><br>`;
-});
-const nota=((acertos/perguntasAtuais.length)*10).toFixed(1);
-fetch(WEB_APP_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({nome:document.getElementById("nome").value,unidade:UNIDADE,mesAno:(hoje.getMonth()+1)+"/"+hoje.getFullYear(),nota})});
-document.getElementById("quiz").classList.add("hidden");
-document.getElementById("resultado").innerHTML=`<h2>Nota final: ${nota}</h2>${fb}`;
-document.getElementById("resultado").classList.remove("hidden");
+    let acertos = 0;
+    let fb = "";
+    perguntasAtuais.forEach((p,i)=>{
+        const r = document.querySelector(`input[name="q${i}"]:checked`);
+        let ok = r && parseInt(r.value) === p.c;
+        if(ok) acertos++;
+        fb += `<div><b>${i+1}. ${p.q}</b><br>${ok?"✅ Acertou":"❌ Errou"}<br><em>Resposta correta: ${p.a[p.c]}</em></div><br>`;
+    });
+
+    const nota = ((acertos/perguntasAtuais.length)*10).toFixed(1);
+
+    fetch(WEB_APP_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            nome: document.getElementById("nome").value,
+            unidade: UNIDADE,
+            mesAno: (hoje.getMonth()+1)+"/"+hoje.getFullYear(),
+            nota: nota
+        })
+    });
+
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("resultado").innerHTML = `<h2>Nota final: ${nota}</h2>${fb}`;
+    document.getElementById("resultado").classList.remove("hidden");
 }
 </script>
 
